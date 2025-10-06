@@ -1,52 +1,37 @@
 #!/usr/bin/env python3
-"""
-Test Serial Connection Script
-
-This script helps test the serial connection between Python and ESP32
-without running the full hand gesture recognition system.
-
-Usage:
-    python test_serial_connection.py
-"""
 
 import serial
 import time
 import sys
 
 def find_serial_ports():
-    """Find available serial ports."""
     import serial.tools.list_ports
     ports = serial.tools.list_ports.comports()
     return [port.device for port in ports]
 
 def test_serial_connection(port, baud_rate=115200):
-    """Test serial connection with ESP32."""
     try:
-        # Open serial connection
         ser = serial.Serial(port, baud_rate, timeout=2)
-        time.sleep(2)  # Wait for ESP32 to initialize
+        time.sleep(2)
         
         print(f"Connected to {port} at {baud_rate} baud")
         print("Sending test commands...")
         
-        # Test commands
         commands = ["OPEN", "FIST", "OPEN", "FIST", "OPEN"]
         
         for i, command in enumerate(commands, 1):
             print(f"\nTest {i}/5: Sending '{command}'")
             ser.write(f"{command}\n".encode())
             
-            # Wait for response
             time.sleep(1)
             
-            # Read any response from ESP32
             if ser.in_waiting:
                 response = ser.readline().decode().strip()
                 print(f"ESP32 response: {response}")
             else:
                 print("No response from ESP32")
             
-            time.sleep(1)  # Wait between commands
+            time.sleep(1)
         
         print("\nTest completed successfully!")
         print("If you saw the servo moving, your connection is working!")
@@ -62,11 +47,9 @@ def test_serial_connection(port, baud_rate=115200):
         return False
 
 def main():
-    """Main function."""
-    print("ESP32 Serial Connection Test")
-    print("=" * 40)
+    print("ESP32 Serial Test")
+    print("=" * 20)
     
-    # Find available ports
     available_ports = find_serial_ports()
     
     if not available_ports:
@@ -78,7 +61,6 @@ def main():
     for i, port in enumerate(available_ports):
         print(f"{i + 1}. {port}")
     
-    # Test all ports automatically
     print("\nTesting all available ports...")
     success = False
     for port in available_ports:
