@@ -1,0 +1,14 @@
+# Python requirements for Hand Gesture Controller
+# Install with: pip install -r requirements.txt
+
+# Computer vision and image processing
+opencv-python>=4.8.0.0
+
+# MediaPipe for hand tracking and gesture recognition
+mediapipe>=0.10.0
+
+# Serial communication with ESP32
+pyserial>=3.5
+
+# Optional: For better performance and additional features
+numpy>=1.21.0
